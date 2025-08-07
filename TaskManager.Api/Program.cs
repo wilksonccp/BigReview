@@ -1,3 +1,4 @@
+using Serilog;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using TaskManager.Api.Services;
@@ -6,6 +7,17 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+Directory.CreateDirectory("logs");
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("logs/app.log", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
+
 
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation()
@@ -17,12 +29,8 @@ builder.Services.AddSingleton<ITaskService, TaskService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
