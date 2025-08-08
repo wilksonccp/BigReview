@@ -1,4 +1,4 @@
-﻿namespace Banking.API.Models;
+﻿namespace Banking.API.Models.entities;
 
 public class Cliente
 {

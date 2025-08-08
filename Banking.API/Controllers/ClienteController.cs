@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Banking.API.DTOs;
-using Banking.API.Models;
+using Banking.API.Models.entities;
 using Banking.API.Services;
 using Microsoft.AspNetCore.Mvc;
 namespace Banking.API.Controllers;

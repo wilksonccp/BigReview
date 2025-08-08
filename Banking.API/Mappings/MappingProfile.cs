@@ -1,16 +1,25 @@
 ﻿using AutoMapper;
-using Banking.API.Models;
 using Banking.API.DTOs;
-namespace Banking.API.Mappings;
+using Banking.API.Models.entities;
+using Banking.API.Models.Entities;
 
-public class MappingProfile : Profile // Inherit from AutoMapper.Profile
+namespace Banking.API.Mappings
 {
-    public MappingProfile()
+    public class MappingProfile : Profile
     {
-        // Cliente
-        CreateMap<Cliente, ClienteDTO>().ReverseMap();
+        public MappingProfile()
+        {
+            // Cliente
+            CreateMap<Cliente, ClienteDTO>().ReverseMap();
 
-        // Conta
-        CreateMap<Conta, ContaDTO>().ReverseMap();
+            // Conta
+            CreateMap<Conta, ContaResponseDTO>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+                .ReverseMap();
+
+            // Movimento
+            CreateMap<Movimento, MovimentoDTO>()
+                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo.ToString()));
+        }
     }
 }

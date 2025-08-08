@@ -1,13 +1,17 @@
-﻿using Banking.API.Models;
-namespace Banking.API.Repositories;
+﻿using Banking.API.Models.Entities;
 
 public interface IContaRepository
 {
-    Task<IEnumerable<Conta>> ListarTodosAsync();
-    Task<Conta?> ObterPorIdAsync(int id);
-    Task<Conta> AdicionarAsync(Conta conta);
-    Task<Conta?> UpdateAsync(int id, Conta conta);
-    Task<bool> DeleteAsync(int id);
-    Task<bool> ExistsAsync(int id);
-    Task<IEnumerable<Conta>> ListarPorClienteIdAsync(Guid clienteId);
+    Task<Conta?> GetByIdAsync(Guid id, CancellationToken ct = default);
+    Task AddAsync(Conta conta, CancellationToken ct = default);
+    Task UpdateAsync(Conta conta, CancellationToken ct = default);
+    Task<bool> ExistsNumeroAsync(string agencia, string numero, CancellationToken ct = default);
+
+    Task<PagedResult<Conta>> SearchAsync(ContasFiltro filtro, CancellationToken ct = default);
+
+    // Transferência/concorrência será tratada no Service com transação (DbContext)
 }
+
+// Models/support
+public sealed record ContasFiltro(Guid? ClienteId, string? Status, int Page, int PageSize);
+public sealed record PagedResult<T>(IReadOnlyList<T> Items, int Total, int Page, int PageSize);

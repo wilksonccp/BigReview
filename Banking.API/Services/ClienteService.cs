@@ -1,4 +1,4 @@
-﻿using Banking.API.Models;
+﻿using Banking.API.Models.entities;
 using Banking.API.Repositories;
 using Banking.API.Validations;
 using FluentValidation;

@@ -1,4 +1,4 @@
-﻿using Banking.API.Models;
+﻿using Banking.API.Models.entities;
 namespace Banking.API.Services;
 
 public interface IClienteService
